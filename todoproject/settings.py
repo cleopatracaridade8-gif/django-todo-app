@@ -94,12 +94,10 @@ WSGI_APPLICATION = 'todoproject.wsgi.application'
 if 'DATABASE_URL' in os.environ:
     import dj_database_url
     DATABASES = {
-        'default': dj_database_url.config(
-            default=config('DATABASE_URL'),
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL")
+    )
+}
 else:
     DATABASES = {
         'default': {
