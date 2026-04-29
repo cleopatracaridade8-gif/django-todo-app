@@ -15,11 +15,13 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: DEBUG
-        value: "False"
+        value: "True"
       - key: SECRET_KEY
         value: ${SECRET_KEY}
       - key: ALLOWED_HOSTS
-        value: "*.render.com"
+        value: "cleopatras-todo-web.onrender.com,*.render.com"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://cleopatras-todo-web.onrender.com"
       - key: DATABASE_URL
         fromDatabase:
           name: todo_db
