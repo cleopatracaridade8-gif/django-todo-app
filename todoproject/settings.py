@@ -28,10 +28,11 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-jg)0!s4vnp=fz34((ddq^
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allow all hosts in development, be more specific in production
-if DEBUG:
-    ALLOWED_HOSTS = ['*']
-else:
-    ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = [
+    "django-todo-app-by-cleo.onrender.com",
+    "127.0.0.1",
+    "localhost"
+]
 
 # CSRF and Security Settings
 CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000', cast=lambda v: [s.strip() for s in v.split(',')])
@@ -142,8 +143,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # WhiteNoise Static Files Storage for Production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
