@@ -12,7 +12,21 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
-from decouple import config
+
+# Try to import decouple, but make it optional for PythonAnywhere
+try:
+    from decouple import config
+    HAS_DECOUPLE = True
+except ImportError:
+    HAS_DECOUPLE = False
+    def config(key, default=None, cast=None):
+        """Fallback config function that reads from os.environ"""
+        value = os.environ.get(key, default)
+        if cast and value is not None:
+            if callable(cast):
+                return cast(value)
+            return cast(value)
+        return value
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,12 +39,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-jg)0!s4vnp=fz34((ddq^b93pufy!^2egkb05(oe@4hwns-+=4')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default='False') in ['True', 'true', '1', 'yes']
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+# Allow all hosts in development, be more specific in production
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    allowed_hosts_str = config('ALLOWED_HOSTS', default='localhost,127.0.0.1')
+    ALLOWED_HOSTS = [s.strip() for s in allowed_hosts_str.split(',')]
 
 # CSRF and Security Settings
-CSRF_TRUSTED_ORIGINS = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000', cast=lambda v: [s.strip() for s in v.split(',')])
+csrf_origins = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000')
+CSRF_TRUSTED_ORIGINS = [s.strip() for s in csrf_origins.split(',')]
 
 # Security Headers for Production
 SECURE_SSL_REDIRECT = not DEBUG
