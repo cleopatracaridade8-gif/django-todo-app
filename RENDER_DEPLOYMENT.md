@@ -34,12 +34,14 @@ python -c 'from django.core.management.utils import get_random_secret_key; print
    - **Start Command**: `gunicorn todoproject.wsgi:application`
 
 ### 5. Set Environment Variables
-In the Render dashboard, add these environment variables:
+In the Render dashboard, go to your web service **Environment** tab and add these environment variables:
 - `DEBUG`: `False`
-- `SECRET_KEY`: (paste your generated secret key)
-- `ALLOWED_HOSTS`: `yourdomain.onrender.com` (replace with your actual domain)
+- `SECRET_KEY`: Paste your generated secret key from Step 3
+- `ALLOWED_HOSTS`: Your Render domain (e.g., `yourdomain.onrender.com`)
 - `CSRF_TRUSTED_ORIGINS`: `https://yourdomain.onrender.com`
-- `PYTHON_VERSION`: `3.11.0`
+- `PYTHON_VERSION`: `3.11.0` (optional, will use default if not set)
+
+**Important**: Make sure `SECRET_KEY` is set before deploying, as it's required for Django to start.
 
 ### 6. Create PostgreSQL Database
 1. In Render dashboard, click "New +" → "PostgreSQL"

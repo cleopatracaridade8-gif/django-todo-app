@@ -17,10 +17,7 @@ services:
       - key: DEBUG
         value: "False"
       - key: SECRET_KEY
-        fromService:
-          type: pserv
-          name: django-secret-key
-          property: value
+        value: ${SECRET_KEY}
       - key: ALLOWED_HOSTS
         value: "*.render.com"
       - key: DATABASE_URL
