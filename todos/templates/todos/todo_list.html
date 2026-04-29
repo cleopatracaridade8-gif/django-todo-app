@@ -1,0 +1,107 @@
+{% extends 'todos/base.html' %}
+{% block title %}My Todos{% endblock %}
+{% block extra_css %}
+<style>
+    .todo-list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    .add-todo-btn {
+        width: auto;
+        margin: 0;
+    }
+    .todo-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 18px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        background: #ffffff;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+    .todo-item:hover {
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        border-color: #667eea;
+    }
+    .todo-item.completed {
+        background: #f5f5f5;
+        opacity: 0.8;
+    }
+    .todo-content {
+        flex: 1;
+        cursor: pointer;
+    }
+    .todo-item.completed .title {
+        text-decoration: line-through;
+        color: #999999;
+    }
+    .title {
+        font-weight: 600;
+        color: #333333;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+    .description {
+        font-size: 13px;
+        color: #666666;
+        margin-top: 5px;
+    }
+    .actions {
+        display: flex;
+        gap: 8px;
+        margin-left: 10px;
+    }
+    .empty {
+        text-align: center;
+        color: #999999;
+        padding: 50px 30px;
+        font-size: 16px;
+    }
+    button[type="submit"] {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        text-align: left;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="todo-list-header">
+    <h1>My Todos</h1>
+    <a href="{% url 'todo_create' %}" class="btn btn-primary add-todo-btn">+ Add New Todo</a>
+</div>
+<div style="margin-top: 20px;">
+    {% if todos %}
+        {% for todo in todos %}
+        <div class="todo-item {% if todo.completed %}completed{% endif %}">
+            <form method="post" action="{% url 'todo_toggle' todo.id %}" 
+                  style="display:contents;" class="todo-content">
+                {% csrf_token %}
+                <button type="submit" style="background:none;border:none;cursor:pointer;text-align:left;flex:1;">
+                    <div>
+                        <span class="title">{{ todo.title }}</span>
+                        {% if todo.description %}
+                        <div class="description">{{ todo.description }}</div>
+                        {% endif %}
+                    </div>
+                </button>
+            </form>
+            <div class="actions">
+                <a href="{% url 'todo_delete' todo.id %}" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <p>No todos yet! Add one to get started.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

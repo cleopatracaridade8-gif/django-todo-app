@@ -1,0 +1,54 @@
+{% extends 'todos/base.html' %}
+{% block title %}Delete Todo{% endblock %}
+{% block extra_css %}
+<style>
+    .confirmation {
+        background: #fff3cd;
+        border: 2px solid #f5576c;
+        padding: 25px;
+        border-radius: 8px;
+        margin: 30px 0;
+        text-align: center;
+    }
+    .confirmation p {
+        color: #333333;
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    .confirmation h3 {
+        color: #f5576c;
+        font-size: 20px;
+        margin-bottom: 0;
+    }
+    .button-group {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+    .cancel-btn {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+    }
+    .cancel-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
+    }
+</style>
+{% endblock %}
+{% block content %}
+<h1>Delete Todo?</h1>
+<div class="confirmation">
+    <p>Are you sure you want to delete this todo?</p>
+    <h3>{{ todo.title }}</h3>
+</div>
+<form method="post">
+   {% csrf_token %}
+    <div class="button-group">
+        <button type="submit" class="btn btn-danger">Yes, Delete It</button>
+        <a href="{% url 'todo_list' %}" class="btn cancel-btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}
