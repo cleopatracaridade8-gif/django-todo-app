@@ -9,8 +9,8 @@ services:
     name: django-todo
     runtime: python
     plan: free
-    buildCommand: pip install -r django_todo/requirements.txt && python django_todo/manage.py migrate --noinput && python django_todo/manage.py collectstatic --noinput
-    startCommand: python django_todo/manage.py migrate --noinput && gunicorn todoproject.wsgi:application --chdir django_todo
+    buildCommand: bash build.sh
+    startCommand: bash start.sh
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
