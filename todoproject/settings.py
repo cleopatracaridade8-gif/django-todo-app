@@ -42,11 +42,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-jg)0!s4vnp=fz34((ddq^
 DEBUG = config('DEBUG', default='False') in ['True', 'true', '1', 'yes']
 
 # Allow all hosts in development, be more specific in production
-if DEBUG:
-    ALLOWED_HOSTS = ['*']
-else:
-    allowed_hosts_str = config('ALLOWED_HOSTS', default='localhost,127.0.0.1')
-    ALLOWED_HOSTS = [s.strip() for s in allowed_hosts_str.split(',')]
+ALLOWED_HOSTS = [*]
 
 # CSRF and Security Settings
 csrf_origins = config('CSRF_TRUSTED_ORIGINS', default='http://localhost:8000')
